@@ -1,0 +1,12 @@
+dart run flutter_launcher_icons
+
+dart run flutter_native_splash:create --path=native_splash.yaml
+
+
+                               _weather == null
+                                    ? Container()
+                                    : Image.network(
+                                        'https://openweathermap.org/img/wn/${_weather!.weatherIcon}@2x.png',
+                                        width: 100,
+                                        height: 100,
+                                      ),

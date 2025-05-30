@@ -1,0 +1,13 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: true
+
+  image: "assets/images/SableSky.png"
+  background_image: "assets/images/gradient.png"
+
+  android_12:
+    image: "assets/images/SableSky.png"
+    icon_background_color: "#07111a"
+    color: "#07111a"
+
