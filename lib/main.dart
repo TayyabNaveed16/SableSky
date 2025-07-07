@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'state/app_state.dart';
 import 'screens/generator.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-
+import 'screens/favourites.dart';
+import 'package:page_flip/page_flip.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -35,11 +35,47 @@ class MyApp extends StatelessWidget {
         //     onSurface: Color(0xFF202B41),
         //   ),
         // ),
-        home: const MyHomePage(),
+        home: const FlipBookView(),
       ),
     );
   }
 }
+
+class FlipBookView extends StatefulWidget {
+  const FlipBookView({super.key});
+
+  @override
+  State<FlipBookView> createState() => _FlipBookViewState();
+}
+
+class _FlipBookViewState extends State<FlipBookView> {
+  final _controller = GlobalKey<PageFlipWidgetState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageFlipWidget(
+        key: _controller,
+        backgroundColor: Colors.grey.shade200,
+        children: [
+          const GeneratorPage(),
+          const FavouritesPage(),
+          // DemoPage(page: 2),
+          // DemoPage(page: 3),
+        ],
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     _controller.currentState?.goToPage(1); // flip to favourites
+      //   },
+      //   child: const Icon(Icons.favorite),
+      //   tooltip: 'Go to Favourites Page',
+      // ),
+    );
+  }
+}
+
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});

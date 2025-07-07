@@ -10,7 +10,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import '../widgets/air_quality.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
 final String weatherApiKey = dotenv.env['WEATHER_API_KEY'] ?? 'no key';
 
 class GeneratorPage extends StatefulWidget {
@@ -316,6 +315,15 @@ class GeneratorPageState extends State<GeneratorPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_loading || _weather == null || _backgroundImage == null) {
+      return const Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: CircularProgressIndicator(color: Colors.white),
+        ),
+      );
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -368,6 +376,7 @@ class GeneratorPageState extends State<GeneratorPage> {
               child: RefreshIndicator(
                 onRefresh: _refreshWeather,
                 child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
                       Padding(
@@ -795,7 +804,7 @@ class GeneratorPageState extends State<GeneratorPage> {
                                 ),
                                 SizedBox(height: 2),
                                 Text(
-                                  _weather?.pressure != null
+                                  _visibility != null
                                       ? 'Visibility: ${(_visibility! / 1000).round()} km'
                                       : 'N/A',
                                   style: GoogleFonts.poppins(
@@ -821,12 +830,7 @@ class GeneratorPageState extends State<GeneratorPage> {
             ),
           ],
 
-          if (_loading)
-            Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
+
         ],
       ),
     );
