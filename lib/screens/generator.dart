@@ -99,13 +99,6 @@ class GeneratorPageState extends State<GeneratorPage> {
       _loading = true;
     });
 
-    //Rain
-    // lat = 44.1006;
-    // lon = 3.0778;
-
-    // lat = 42.4755;
-    // lon = 44.4805;
-
     Weather weather = await ws.currentWeatherByLocation(lat, lon);
     fetchVisibilityAndAirQuality(lat, lon);
     String city = await _getCityFromCoordinates(lat, lon);
@@ -113,7 +106,7 @@ class GeneratorPageState extends State<GeneratorPage> {
 
     // debugPrint("Weather after fetch: ${weather.toString()}");
 
-    // debugPrint("Five day Forecast: $forecast");
+    debugPrint("Five day Forecast: $forecast");
 
     // debugPrint("weatherMain: $weather");
 
@@ -184,7 +177,7 @@ class GeneratorPageState extends State<GeneratorPage> {
               "Unknown Location";
         }
       } else {
-        debugPrint("Error: ${response.statusCode} - ${response.body}");
+        // debugPrint("Error: ${response.statusCode} - ${response.body}");
       }
     } catch (e) {
       debugPrint("Error fetching city name: $e");
