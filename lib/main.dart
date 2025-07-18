@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'state/app_state.dart';
-import 'screens/generator.dart';
+import 'screens/current_weather.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'screens/favourites.dart';
+import 'screens/tomorrow_weather.dart';
 import 'package:page_flip/page_flip.dart';
 
 Future<void> main() async {
@@ -58,8 +58,8 @@ class _FlipBookViewState extends State<FlipBookView> {
         key: _controller,
         backgroundColor: Colors.grey.shade200,
         children: [
-          const GeneratorPage(),
-          const FavouritesPage(),
+          const CurrentWeather(),
+          const TomorrowWeather(),
           // DemoPage(page: 2),
           // DemoPage(page: 3),
         ],
@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = const GeneratorPage();
+        page = const CurrentWeather();
         break;
       // case 1:
       //   page = const FavouritesPage();

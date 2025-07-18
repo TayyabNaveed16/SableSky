@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:sable_sky/state/app_state.dart';
 import 'package:weather/weather.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -12,14 +14,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final String weatherApiKey = dotenv.env['WEATHER_API_KEY'] ?? 'no key';
 
-class GeneratorPage extends StatefulWidget {
-  const GeneratorPage({super.key});
+class CurrentWeather extends StatefulWidget {
+  const CurrentWeather({super.key});
 
   @override
-  GeneratorPageState createState() => GeneratorPageState();
+  CurrentWeatherState createState() => CurrentWeatherState();
 }
 
-class GeneratorPageState extends State<GeneratorPage> {
+class CurrentWeatherState extends State<CurrentWeather> {
   late WeatherFactory ws;
   Weather? _weather;
   bool _loading = false;
@@ -83,8 +85,8 @@ class GeneratorPageState extends State<GeneratorPage> {
       Position? lastPosition = await Geolocator.getLastKnownPosition();
       Position position = lastPosition ?? await Geolocator.getCurrentPosition();
 
-      debugPrint(
-          'Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+      // debugPrint(
+      //     'Latitude: ${position.latitude}, Longitude: ${position.longitude}');
 
       await fetchWeather(position.latitude, position.longitude);
     } else {
@@ -99,14 +101,19 @@ class GeneratorPageState extends State<GeneratorPage> {
       _loading = true;
     });
 
+    // lat = 82.8628;
+    // lon = 135.0000; // Antarctica Hardcoded for testing snow
+
     Weather weather = await ws.currentWeatherByLocation(lat, lon);
     fetchVisibilityAndAirQuality(lat, lon);
     String city = await _getCityFromCoordinates(lat, lon);
-    forecast = await ws.fiveDayForecastByLocation(lat, lon);
 
-    // debugPrint("Weather after fetch: ${weather.toString()}");
+    if (!mounted) return;
+    final appState = Provider.of<MyAppState>(context, listen: false);
+    await appState.fetchForecast(lat, lon); // ✅ Await it
+    forecast = appState.forecast;
 
-    debugPrint("Five day Forecast: $forecast");
+    if (!mounted) return; // ✅ Important after awaiting
 
     // debugPrint("weatherMain: $weather");
 
@@ -165,7 +172,7 @@ class GeneratorPageState extends State<GeneratorPage> {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        debugPrint("Raw Response: $data");
+        // debugPrint("Raw Response: $data");
 
         if (data['address'] != null) {
           final address = data['address'];
@@ -813,6 +820,22 @@ class GeneratorPageState extends State<GeneratorPage> {
                       ),
                       SizedBox(height: 15),
                       DetailedAirQualityCard(aqi: _aqi),
+                      SizedBox(height: 40),
+                      Text(
+                        "Swipe Left to see tomorrow's weather",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.aBeeZee(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Icon(
+                        Icons.swipe_left_sharp,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                       SizedBox(
                         height: 100,
                       ),
@@ -822,8 +845,6 @@ class GeneratorPageState extends State<GeneratorPage> {
               ),
             ),
           ],
-
-
         ],
       ),
     );
