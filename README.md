@@ -7,7 +7,7 @@
 *A weather mobile application I created as part of my Flutter learning journey.*
 
 
-## 🎥 Demo
+## 🎥 SableSky in action
 [Watch the video here](https://www.youtube.com/shorts/t-s9l7EBMwY)
 [And here!](https://www.youtube.com/shorts/P8F4mD-KU3I)
 
