@@ -5,6 +5,7 @@ import '../state/app_state.dart';
 import 'package:weather_animation/weather_animation.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:math';
 
 class TomorrowWeather extends StatefulWidget {
   const TomorrowWeather({super.key});
@@ -16,6 +17,52 @@ class TomorrowWeather extends StatefulWidget {
 class TomorrowWeatherState extends State<TomorrowWeather> {
   bool _hasLoggedForecast = false;
   String? mostFrequentWeather;
+
+  String? getRandomWeatherMessage() {
+    String tomorrowWeatherText = "";
+
+    final rainOptions = [
+      'Umbrellas up - wet skies ahead!',
+      'Fetch those raincoats!',
+      'Puddles galore - watch your step!',
+      'Rain ahead - stay dry!',
+      'Don\'t forget your umbrella!',
+    ];
+
+    final cloudyOptions = [
+      'Gray skies, no lies',
+      'Looks like a cloudy day tomorrow!',
+      'Clouds rolling in - no sun tomorrow',
+      'Sky\'s hiding tomorrow.',
+    ];
+
+    final clearOptions = [
+      'Bright day coming up!',
+      'Clear skies all day',
+      'Nothing but sunshine!',
+      'Clear skies ahead!',
+    ];
+
+    final snowOptions = [
+      'Flakes falling - bundle up!',
+      'Winter wonderland coming up!',
+      'Snowy forecast - stay warm!',
+      'Snow day fun ahead!',
+    ];
+
+    if (mostFrequentWeather == "rain") {
+      tomorrowWeatherText = rainOptions[Random().nextInt(rainOptions.length)];
+    } else if (mostFrequentWeather == "clouds") {
+      tomorrowWeatherText =
+          cloudyOptions[Random().nextInt(cloudyOptions.length)];
+    } else if (mostFrequentWeather == "clear") {
+      tomorrowWeatherText = clearOptions[Random().nextInt(clearOptions.length)];
+    } else if (mostFrequentWeather == "snow") {
+      tomorrowWeatherText = snowOptions[Random().nextInt(snowOptions.length)];
+    }
+
+    return tomorrowWeatherText;
+  }
 
   void _logForecast(List forecast) {
     if (_hasLoggedForecast || forecast.length <= 1) return;
@@ -47,7 +94,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
     weatherCount.forEach((weather, count) {
       if (count > maxCount) {
         maxCount = count;
-        mostFrequentWeather = weather; // 👈 Save to class-level field
+        mostFrequentWeather = weather;
       }
 
       debugPrint("Most frequent weather for tomorrow: $weatherCount");
@@ -115,7 +162,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                       child: Padding(
                     padding: const EdgeInsets.only(bottom: 90.0),
                     child: Text(
-                      'Bright day coming up!',
+                      "${getRandomWeatherMessage()}",
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         color: Colors.white,
@@ -183,7 +230,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.wb_sunny_sharp,
+                                        const Icon(Icons.wb_sunny_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Center(
@@ -209,7 +256,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.spa_sharp,
+                                        const Icon(Icons.spa_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -240,7 +287,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.local_drink_sharp,
+                                        const Icon(Icons.local_drink_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -264,7 +311,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.directions_walk_sharp,
+                                        const Icon(Icons.directions_walk_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -301,7 +348,8 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                         cloudConfig: CloudConfig(
                           size: 270,
                           color: Color(0xCCBDBDBD), // ~80% opacity of grey[400]
-                          icon: IconData(63056, fontFamily: 'MaterialIcons'),
+                          icon: const IconData(63056,
+                              fontFamily: 'MaterialIcons'),
                           widgetCloud: null,
                           x: 119,
                           y: -50,
@@ -318,7 +366,8 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                         cloudConfig: CloudConfig(
                           size: 250,
                           color: Color(0x92FAFAFA), // ~57% opacity of grey[50]
-                          icon: IconData(63056, fontFamily: 'MaterialIcons'),
+                          icon: const IconData(63056,
+                              fontFamily: 'MaterialIcons'),
                           widgetCloud: null,
                           x: 0,
                           y: 3,
@@ -335,7 +384,8 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                         cloudConfig: CloudConfig(
                           size: 160,
                           color: Color(0xB5FAFAFA), // ~71% opacity of grey[50]
-                          icon: IconData(63056, fontFamily: 'MaterialIcons'),
+                          icon: const IconData(63056,
+                              fontFamily: 'MaterialIcons'),
                           widgetCloud: null,
                           x: 140,
                           y: 97,
@@ -354,7 +404,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                       child: Padding(
                     padding: const EdgeInsets.only(bottom: 90.0),
                     child: Text(
-                      'Looks like a cloudy day tomorrow!',
+                      "${getRandomWeatherMessage()}",
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         color: Colors.white,
@@ -422,7 +472,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.photo_camera,
+                                        const Icon(Icons.photo_camera,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Center(
@@ -448,7 +498,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.directions_walk_sharp,
+                                        const Icon(Icons.directions_walk_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -479,7 +529,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.menu_book_sharp,
+                                        const Icon(Icons.menu_book_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -503,7 +553,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.self_improvement_sharp,
+                                        const Icon(Icons.self_improvement_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -590,7 +640,8 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                         cloudConfig: CloudConfig(
                           size: 250,
                           color: Color.fromRGBO(144, 164, 174, 0.68),
-                          icon: IconData(63056, fontFamily: 'MaterialIcons'),
+                          icon: const IconData(63056,
+                              fontFamily: 'MaterialIcons'),
                           widgetCloud: null,
                           x: 20,
                           y: 3,
@@ -622,7 +673,8 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                         cloudConfig: CloudConfig(
                           size: 160,
                           color: Color.fromRGBO(96, 125, 139, 0.7),
-                          icon: IconData(63056, fontFamily: 'MaterialIcons'),
+                          icon: const IconData(63056,
+                              fontFamily: 'MaterialIcons'),
                           widgetCloud: null,
                           x: 140,
                           y: 97,
@@ -641,7 +693,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                       child: Padding(
                     padding: const EdgeInsets.only(bottom: 90.0),
                     child: Text(
-                      'Umbrellas up—wet skies ahead!',
+                      "${getRandomWeatherMessage()}",
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         color: Colors.white,
@@ -709,7 +761,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.fitness_center_sharp,
+                                        const Icon(Icons.fitness_center_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Center(
@@ -735,7 +787,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.minor_crash_sharp,
+                                        const Icon(Icons.minor_crash_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -766,7 +818,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.umbrella_sharp,
+                                        const Icon(Icons.umbrella_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -790,7 +842,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.water_sharp,
+                                        const Icon(Icons.water_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -927,7 +979,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                       child: Padding(
                     padding: const EdgeInsets.only(bottom: 90.0),
                     child: Text(
-                      'Coats on, snow\'s rolling in!',
+                      "${getRandomWeatherMessage()}",
                       style: GoogleFonts.poppins(
                         fontSize: 18,
                         color: Colors.white,
@@ -995,7 +1047,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.emoji_food_beverage_sharp,
+                                        const Icon(Icons.emoji_food_beverage_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Center(
@@ -1021,7 +1073,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.minor_crash_sharp,
+                                        const Icon(Icons.minor_crash_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -1052,7 +1104,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.thermostat_sharp,
+                                        const Icon(Icons.thermostat_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(
@@ -1076,7 +1128,7 @@ class TomorrowWeatherState extends State<TomorrowWeather> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(Icons.self_improvement_sharp,
+                                        const Icon(Icons.self_improvement_sharp,
                                             color: Colors.white, size: 24),
                                         SizedBox(height: 5),
                                         Text(

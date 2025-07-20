@@ -11,6 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import '../widgets/air_quality.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 
 final String weatherApiKey = dotenv.env['WEATHER_API_KEY'] ?? 'no key';
 
@@ -316,10 +318,13 @@ class CurrentWeatherState extends State<CurrentWeather> {
   @override
   Widget build(BuildContext context) {
     if (_loading || _weather == null || _backgroundImage == null) {
-      return const Scaffold(
+      return Scaffold(
         backgroundColor: Colors.black,
         body: Center(
-          child: CircularProgressIndicator(color: Colors.white),
+          child: LoadingAnimationWidget.dotsTriangle(
+            color: Colors.white,
+            size: 50,
+          ),
         ),
       );
     }
